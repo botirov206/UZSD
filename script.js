@@ -101,7 +101,7 @@ function validateField(input) {
   return valid;
 }
 
-['fullName','phone','email','driverType','equipment','experience','location'].forEach(id => {
+['fullName','phone','email','driverType','equipmentType','experience','location'].forEach(id => {
   const el = document.getElementById(id);
   el.addEventListener('blur', () => validateField(el));
   el.addEventListener('input', () => { if(el.classList.contains('invalid')) validateField(el); });
@@ -109,7 +109,7 @@ function validateField(input) {
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const fields = ['fullName','phone','email','driverType','equipment','experience','location'];
+  const fields = ['fullName','phone','email','driverType','equipmentType','experience','location'];
   let isValid = true;
   fields.forEach(id => { if(!validateField(document.getElementById(id))) isValid = false; });
   if (!isValid) return;
@@ -125,7 +125,7 @@ form.addEventListener('submit', async (e) => {
     phone: document.getElementById('phone').value.trim(),
     email: document.getElementById('email').value.trim(),
     driverType: document.getElementById('driverType').value,
-    equipment: document.getElementById('equipment').value,
+    equipment: document.getElementById('equipmentType').value,
     experience: document.getElementById('experience').value,
     location: document.getElementById('location').value.trim(),
     grossIncome: document.getElementById('grossIncome').value || 'Not specified',
