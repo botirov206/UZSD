@@ -89,6 +89,31 @@ document.querySelectorAll('.faq-q').forEach(btn => {
 const form = document.getElementById('applyForm');
 const submitBtn = document.getElementById('submitBtn');
 const feedback = document.getElementById('formFeedback');
+const toastContainer = document.getElementById('toastContainer');
+
+function showToast(title, message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `
+    <div class="toast-icon">✓</div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      <div class="toast-message">${message}</div>
+    </div>
+    <button class="toast-close" type="button" aria-label="Dismiss">&times;</button>
+  `;
+
+  const dismiss = () => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  };
+
+  toast.querySelector('.toast-close').addEventListener('click', dismiss);
+  toastContainer.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+
+  setTimeout(dismiss, 6000);
+}
 
 function validateField(input) {
   const id = input.id;
@@ -141,8 +166,10 @@ form.addEventListener('submit', async (e) => {
     const json = await res.json();
 
     if (json.ok) {
-      feedback.textContent = '✅ Application submitted successfully! Our team will contact you within 24 hours.';
-      feedback.className = 'form-feedback success';
+      showToast(
+        'Application Submitted',
+        'Our team will contact you within 24 hours. Thank you for applying!'
+      );
       form.reset();
     } else {
       const phone = json.contactPhone || '+1 (708) 575-7006';
